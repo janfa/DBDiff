@@ -6,7 +6,7 @@ use Aura\Cli\Status;
 
 
 class CLIGetter implements ParamsGetter {
-    
+
     public function getParams() {
         $params = new \StdClass;
 
@@ -19,7 +19,7 @@ class CLIGetter implements ParamsGetter {
             'template::', 'type::', 'include::',
             'nocomments::', 'config::', 'output::', 'debug::'
         ]);
-    
+
         $input = $getopt->get(1);
         if ($input) {
             $params->input = $this->parseInput($input);
@@ -45,6 +45,10 @@ class CLIGetter implements ParamsGetter {
             $params->output = $getopt->get('--output');
         if ($getopt->get('--debug'))
             $params->debug = $getopt->get('--debug');
+        if ($getopt->get('--tablesToIgnore'))
+            $params->tablesToIgnore = explode('|', $getopt->get('--tablesToIgnore'));
+        if ($getopt->get('--fieldsToIgnore'))
+            $params->fieldsToIgnore = json_decode($getopt->get('--fieldsToIgnore'), true);
 
         return $params;
     }
